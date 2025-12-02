@@ -1,0 +1,28 @@
+<div class="container">
+
+  <h2>NSW Working at Heights Safety Assistant</h2>
+
+  <textarea
+    [(ngModel)]="question"
+    placeholder="Ask a safety question..."
+    rows="3"
+    class="question-box">
+  </textarea>
+
+  <button (click)="askQuestion()" [disabled]="loading">
+    {{ loading ? 'Thinking...' : 'Ask' }}
+  </button>
+
+  <div *ngIf="response" class="response-box">
+    <h3>Answer:</h3>
+    <p>{{ response.answer }}</p>
+
+    <h3>Retrieved Chunks:</h3>
+    <div *ngFor="let chunk of response.chunks" class="chunk">
+      <strong>{{ chunk.metadata.doc_id }}</strong>
+      <em>(p{{chunk.metadata.page_num}}, c{{chunk.metadata.chunk_idx}})</em>
+      <p>{{ chunk.text_preview }}</p>
+    </div>
+  </div>
+
+</div>
