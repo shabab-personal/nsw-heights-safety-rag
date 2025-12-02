@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -11,7 +11,18 @@ app = FastAPI(
     description="RAG backed safety assistant for NSW working at heights guidance.",
     version="0.1.0",
 )
+origins = [
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,          # or ["*"] in dev if you want
+    allow_credentials=True,
+    allow_methods=["*"],            # allow GET, POST, OPTIONS, etc
+    allow_headers=["*"],
+)
 
 class ChunkMetadata(BaseModel):
     doc_id: str
