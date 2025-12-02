@@ -1,28 +1,66 @@
-<div class="container">
+<div class="chat-wrapper">
 
-  <h2>NSW Working at Heights Safety Assistant</h2>
+  <div class="chat-header">
+    <h2>Ask a safety question</h2>
+    <p>
+      The assistant uses your local model and NSW working at heights guidance.
+      Use this as a safety reminder, not a legal opinion.
+    </p>
+  </div>
 
-  <textarea
-    [(ngModel)]="question"
-    placeholder="Ask a safety question..."
-    rows="3"
-    class="question-box">
-  </textarea>
+  <div class="chat-input-area">
+    <label for="question" class="chat-label">Question</label>
+    <textarea
+      id="question"
+      [(ngModel)]="question"
+      placeholder="For example: What is considered working at heights in NSW?"
+      rows="3"
+      class="question-box">
+    </textarea>
 
-  <button (click)="askQuestion()" [disabled]="loading">
-    {{ loading ? 'Thinking...' : 'Ask' }}
-  </button>
+    <div class="chat-actions">
+      <button (click)="askQuestion()" [disabled]="loading">
+        {{ loading ? 'Thinking…' : 'Ask' }}
+      </button>
 
-  <div *ngIf="response" class="response-box">
-    <h3>Answer:</h3>
-    <p>{{ response.answer }}</p>
-
-    <h3>Retrieved Chunks:</h3>
-    <div *ngFor="let chunk of response.chunks" class="chunk">
-      <strong>{{ chunk.metadata.doc_id }}</strong>
-      <em>(p{{chunk.metadata.page_num}}, c{{chunk.metadata.chunk_idx}})</em>
-      <p>{{ chunk.text_preview }}</p>
+      <span *ngIf="errorMessage" class="error-text">
+        {{ errorMessage }}
+      </span>
     </div>
+  </div>
+
+  <div *ngIf="response" class="chat-response-area">
+    <section class="answer-card">
+      <div class="answer-header">
+        <span class="answer-title">Answer</span>
+      </div>
+      <p class="answer-text">
+        {{ response.answer }}
+      </p>
+    </section>
+
+    <section class="chunks-card">
+      <div class="chunks-header">
+        <span class="chunks-title">Sources used</span>
+        <span class="chunks-subtitle">
+          Retrieved from your local document library
+        </span>
+      </div>
+
+      <div class="chunk-list">
+        <div *ngFor="let chunk of response.chunks" class="chunk-item">
+          <div class="chunk-meta">
+            <span class="chunk-doc">{{ chunk.metadata.doc_id }}</span>
+            <span class="chunk-location">
+              p{{ chunk.metadata.page_num }} · c{{ chunk.metadata.chunk_idx }}
+            </span>
+          </div>
+          <p class="chunk-text">
+            {{ chunk.text_preview }}
+          </p>
+        </div>
+      </div>
+    </section>
   </div>
 
 </div>
