@@ -219,4 +219,8 @@ Machine Learning Engineer • Full-Stack Developer
 Sydney, Australia  
 
 ---
+## Demo
+
+https://github.com/user-attachments/assets/019b1f3c-12cc-47e8-ad10-376e4daa990e
+
 
